@@ -8,7 +8,7 @@ The Team Membership App is available in two flavors, one SDK 1.0 for isolated in
 This basic app displays a table of User First, Last, and Display Names, plus a list of each Team/Project for which that user is a member.
 
 Screenshot, SDK 2.0 version:
-![Alt text](https://github.com/RallyApps/StoryBoard/raw/master/deploy/Screenshot.png)
+![Alt text](https://github.com/jkrooswyk/User-Team-Membership-App/master/Screenshot_UserTeamMembership2.0.png)
 
 Screenshot, SDK 1.0 version:
-![Alt text](https://github.com/RallyApps/StoryBoard/raw/master/deploy/Screenshot.png)
+![Alt text]((https://github.com/jkrooswyk/User-Team-Membership-App/master/Screenshot_UserTeamMembership1.0.png)
