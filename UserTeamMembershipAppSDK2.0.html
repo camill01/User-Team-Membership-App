@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- Copyright (c) 2010  Rally Software Development Corp.  All rights reserved -->
+<html>
+    <head>
+        <title>User Team Memberships</title>
+        <meta name="Name" content="User Team Memberships" />
+        <meta name="Version" content="2.0" />
+        <meta name="Vendor" content="Rally Software" />
+        <meta name="Author" content="Joel Krooswyk" />
+        <script type="text/javascript" src="/apps/2.0p/sdk.js"></script>
+
+    <script type="text/javascript">
+        Rally.onReady(function() {
+            Ext.define('CustomApp', {
+                extend: 'Rally.app.App',
+                componentCls: 'app',
+            
+                launch: function() {
+                    Ext.create('Rally.data.WsapiDataStore', {
+                        model: 'User',
+                        autoLoad: true,
+                        listeners: {
+                            load: this._onDataLoaded,
+                            scope: this
+                        }
+                    });
+                },
+            
+                _onDataLoaded: function(store, data) {
+                    var records = [];
+                    Ext.Array.each(data, function(record) {
+                        
+                        memberships = "";
+                        
+                        //Extract team membership list
+                        Ext.Array.each(record.get('TeamMemberships'), function(name, index) {
+                            memberships = (memberships + "<B>- </B>" + record.get('TeamMemberships')[index]._refObjectName + "<BR>");
+                        });
+                        
+                        if (memberships == "") {
+                            memberships = "<I>[Not a member of any team]</I>"
+                        };
+                    
+                        records.push({
+                            DisplayName: record.get('DisplayName'),
+                            FirstName: record.get('FirstName'),
+                            LastName: record.get('LastName'),
+                            TeamMemberships: memberships
+                        });
+                    });
+                    
+                    //console.log(records);
+                    
+                    //display table
+                    this.add({
+                        xtype: 'rallygrid',
+                        store: Ext.create('Rally.data.custom.Store', {
+                            data: records,
+                            //pageSize: 5
+                        }),
+                        autoScroll: true,
+                        //columnLines: true,
+                        columnCfgs: [
+                            {
+                                text: 'Display Name', dataIndex: 'DisplayName', flex: 1
+                            },
+                            {
+                                text: 'First Name', dataIndex: 'FirstName', flex: 1
+                            },
+                            {
+                                text: 'Last Name', dataIndex: 'LastName', flex: 1
+                            },
+                            {
+                                text: 'Team Memberships', dataIndex: 'TeamMemberships', flex: 1
+                            }
+                        ]
+                    });
+                }
+            });
+
+            Rally.launchApp('CustomApp', {
+                name: 'User Team Memberships'
+            });
+        });
+    </script>
+
+    <style type="text/css">
+        .app { 
+            margin: 20px;
+        }
+    </style>
+</head>
+<body></body>
+</html>
